@@ -6,20 +6,26 @@ function Home() {
     const [questions, setQuestions] = useState()
    
 
-    useEffect(()=>{
-        fetch("http://localhost:9292/questions", {
-            method: "GET",
-            headers: {
-                Accept: "application/json"
-            }
-        })
-        .then(r=>r.json())
-        .then((response)=>{
-            console.log(response)
-            setQuestions(response)
-        })
+   const getQuestions = async () => {
+  try {
+    const response = await fetch("http://localhost:9292/questions", {
+      method: "GET",
+      headers: {
+        Accept: "application/json"
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    setQuestions(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-    }, [])
+useEffect(() => {
+  getQuestions();
+}, []);
+
 
   return (
     <div>
@@ -34,7 +40,7 @@ function Home() {
                   }
                 </div>
                 <div className="col-sm-4">
-                  One of two columns
+                  Column 1
                 </div>
             </div>
         </div>
